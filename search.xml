@@ -1,33 +1,641 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Hello World</title>
-    <url>/hello/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+    <title>Docker</title>
+    <url>/back-end/%E5%90%8E%E7%AB%AF/Docker/</url>
+    <content><![CDATA[<p>Docker 是一种容器虚拟化技术，与 VMWare 等的主机级虚拟化不同，Docker 是一种操作系统虚拟化技术 <del>，只能运行在 Linux 上</del>(现在可以运行在很多平台上了，Linux，Windows，DataCenter，Cloud)。</p>
+<ul>
+<li>主机级虚拟化：想办法去模拟出硬件环境，模拟出虚拟的 cpu、内存、硬盘、网卡等资源，然后在这些虚拟资源之上安装合适的操作系统来控制这些资源。</li>
+<li>操作系统虚拟化：把操作系统进行虚拟化，把物理的操作系统模拟为逻辑上的多个操作系统，不同的操作系统有自己的用户空间，实现了应用程序间的隔离。</li>
+</ul>
+<p><img src="/back-end/%E5%90%8E%E7%AB%AF/Docker/Docker-image-1.png"></p>
+<p>Docker 推荐单个容器只运行一个应用程序&#x2F;进程，这样就形成了一个分布式的应用程序模型，避免服务之间的互相影响。实现 高内聚，低耦合。</p>
+<h2 id="Docker-组件"><a href="#Docker-组件" class="headerlink" title="Docker 组件"></a>Docker 组件</h2><blockquote>
+<p>参考：<a href="https://docs.docker.com/get-started/overview/">官方文档</a></p>
+</blockquote>
+<p>Docker 使用客户端服务器架构。</p>
+<p><img src="/back-end/%E5%90%8E%E7%AB%AF/Docker/Docker-image-2.png"></p>
+<h3 id="Docker-daemon"><a href="#Docker-daemon" class="headerlink" title="Docker daemon"></a>Docker daemon</h3><p>Docker 守护程序，在使用 Docker 之前要先启动它。</p>
+<h3 id="Docker-client"><a href="#Docker-client" class="headerlink" title="Docker client"></a>Docker client</h3><p>客户端，用来和 daemon 交互。这个客户端可以连接不同的 daemon。</p>
+<h3 id="Docker-registry"><a href="#Docker-registry" class="headerlink" title="Docker registry"></a>Docker registry</h3><p>仓库，公有远程仓库是 Docker Hub，私有的仓库可以安装 registry 来设置。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>通过<a href="https://www.docker.com/">官网</a>来安装</p>
+<h2 id="构建镜像"><a href="#构建镜像" class="headerlink" title="构建镜像"></a>构建镜像</h2><h3 id="方法一"><a href="#方法一" class="headerlink" title="方法一"></a>方法一</h3><p><img src="/back-end/%E5%90%8E%E7%AB%AF/Docker/Docker-image-3.png"></p>
+<p>使用 Dockerfile，Dockerfile 相当于一个脚本，有确定的格式要求，FROM，MAINTAINER，RUN，CMD，ADD 都是指令，分别完成不同的任务，Docker 镜像的结构就像是积木一样，一层一层往上面搭建，最底层是一个基础镜像，然后在上面运行命令搭建层。镜像是不可更改的，但是生成的 container 最上面有一层可写层，可以更改自己的东西。</p>
+<h3 id="方法二"><a href="#方法二" class="headerlink" title="方法二"></a>方法二</h3><p>使用 Docker commit 命令。首先启动一个基础镜像：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker run -i -t ubuntu /bin/bash</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<p>-i 交互式</p>
+<p>-t 启用终端</p>
+<p>然后做自己的操作，操作完成之后，就退出容器，然后 commit：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker commit [container <span class="built_in">id</span>] [image name]</span><br></pre></td></tr></table></figure>
 
-<p>More info: <a href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+<p>这样就生成了一个镜像。</p>
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ul>
+<li><p><code> systemctl start docker</code>：启用 docker daemon</p>
+</li>
+<li><p><code> docker image ls</code>：查看镜像列表</p>
+</li>
+<li><p><code> docker container ls</code>：查看容器列表</p>
+</li>
+<li><p><code> docker ps -l</code>：查看容器的状态</p>
+</li>
+<li><p><code> docker search [name]</code>：查找镜像</p>
+</li>
+<li><p><code> docker image pull [name]</code>：拉取镜像</p>
+</li>
+<li><p><code> docker image rm [name]</code>：删除镜像</p>
+</li>
+<li><p><code>docker run -i -t [name] [command]</code>：以交互终端的方式启用[name]镜像，启用时运行命令[command]</p>
+</li>
+<li><p><code>docker rm [name]</code>：删除容器</p>
+</li>
+<li><p><code>docker rmi [name]</code>：删除镜像</p>
+</li>
+<li><p><code>docker start -i -a [name]</code>：启动容器，交互式，依附于终端</p>
+</li>
+<li><p><code>docker stop [name]</code>：停止容器</p>
+</li>
+</ul>
 ]]></content>
       <categories>
-        <category>hello</category>
+        <category>back end</category>
       </categories>
       <tags>
-        <tag>hello</tag>
+        <tag>back end</tag>
+        <tag>Docker</tag>
       </tags>
   </entry>
   <entry>
-    <title>参考文献格式与标准</title>
-    <url>/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/reference-standard/</url>
-    <content><![CDATA[<p>在这里的部分我打算整理一下参考文献的格式，以及一些文献类型。最后还可以整理一下 endnote 里面的格式。</p>
+    <title>PostgreSQL</title>
+    <url>/DataBase/%E5%90%8E%E7%AB%AF/PostgreSQL/</url>
+    <content><![CDATA[<p>PostgreSQL 是以加州大学伯克利分校计算机系开发的 POSTGRES， 版本 4.2 为基础的<strong>对象关系型数据库管理系统（ORDBMS）</strong>。POSTGRES 领先的许多概念在很久以后才出现在一些商业数据库系统中。PostgreSQL 是最初的伯克利代码的开源继承者。它支持大部分 SQL 标准并且提供了许多现代特性：</p>
+<ul>
+<li>复杂查询</li>
+<li>外键</li>
+<li>触发器</li>
+<li>可更新视图</li>
+<li>事务完整性</li>
+<li>多版本并发控制</li>
+</ul>
+<p>同样，PostgreSQL 可以用许多方法扩展，比如， 通过增加新的：</p>
+<ul>
+<li>数据类型</li>
+<li>函数</li>
+<li>操作符</li>
+<li>聚集函数</li>
+<li>索引方法</li>
+<li>过程语言</li>
+</ul>
+<p>并且，因为自由宽松的许可证，任何人都可以以任何目的免费使用、修改和分发 PostgreSQL， 不管是私用、商用还是学术研究目的。经过二十多年的发展，PostgreSQL 是世界上可以获得的最先进的开源数据库。</p>
+<h2 id="架构基础"><a href="#架构基础" class="headerlink" title="架构基础"></a>架构基础</h2><p>PostgreSQL 使用一种客户端&#x2F;服务器的模型。一次 PostgreSQL 会话由下列相关的进程（程序）组成：</p>
+<ul>
+<li>一个服务器进程，它管理数据库文件、接受来自客户端应用与数据库的联接并且代表客户端在数据库上执行操作。 该数据库服务器程序叫做<code>postgres</code>。</li>
+<li>客户端（前端）应用。 客户端应用可能本身就是多种多样的：可以是一个面向文本的工具， 也可以是一个图形界面的应用，或者是一个通过访问数据库来显示网页的网页服务器，或者是一个特制的数据库管理工具。 一些客户端应用是和 PostgreSQL 发布一起提供的，但绝大部分是用户开发的。</li>
+</ul>
+<p>和典型的客户端&#x2F;服务器应用（C&#x2F;S 应用）一样，这些客户端和服务器可以在不同的主机上。 这时它们通过 TCP&#x2F;IP 网络联接通讯。 你应该记住的是，在客户机上可以访问的文件未必能够在数据库服务器机器上访问（或者只能用不同的文件名进行访问）。主服务器进程总是在运行并等待着客户端联接， 而客户端和相关联的服务器进程则是起起停停。</p>
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h3 id="Mac-安装"><a href="#Mac-安装" class="headerlink" title="Mac 安装"></a>Mac 安装</h3><p>在 mac 上用 homebrew 安装：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">brew install postgresql</span><br></pre></td></tr></table></figure>
+
+<p>安装完成后可以查看版本：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">psql --version</span><br></pre></td></tr></table></figure>
+
+<p>初始化数据库：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">initdb /usr/local/var/postgres</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h3><p>启动服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pg_ctl -D /usr/local/var/postgres -l /usr/local/var/postgres/server.log start</span><br></pre></td></tr></table></figure>
+
+<p>关闭服务：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">pg_ctl -D /usr/local/var/postgres stop -s -m fast</span><br></pre></td></tr></table></figure>
+
+<p>设置开机自启动：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents launchctl load ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist</span><br></pre></td></tr></table></figure>
+
+<h2 id="创建数据库和账户"><a href="#创建数据库和账户" class="headerlink" title="创建数据库和账户"></a>创建数据库和账户</h2><p>mac 安装 PostgreSQL 后不会创建用户名数据库，所以首先要执行命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">createdb</span><br></pre></td></tr></table></figure>
+
+<p>然后就可以登陆命令行界面：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">psql</span><br></pre></td></tr></table></figure>
+
+<h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ol>
+<li><code> \?</code>：查看 psql 命令列表</li>
+<li><code>\h</code>：查看 SQL 命令的解释，比如<code>\h select</code></li>
+<li><code>\l</code>：列出所有数据库</li>
+<li><code>\du</code>：列出所有用户</li>
+<li><code>\d</code>：列出当前数据库的所有表格</li>
+<li><code> \d [table_name]</code>：列出某一张表格的结构</li>
+<li><code> \c [database_name]</code>：连接其他数据库</li>
+<li><code>\password</code>：设置当前登录用户的密码</li>
+<li><code>\password [user]</code>：修改用户密码</li>
+<li><code>\q</code>：退出</li>
+</ol>
+<h2 id="登陆控制台指令"><a href="#登陆控制台指令" class="headerlink" title="登陆控制台指令"></a>登陆控制台指令</h2><h3 id="创建用户及数据库"><a href="#创建用户及数据库" class="headerlink" title="创建用户及数据库"></a>创建用户及数据库</h3><ol>
+<li><p>创建<code>[username]</code>用户：<code>CREATE USER [username] WITH PASSWORD [password]</code></p>
+</li>
+<li><p>删除数据库用户：<code>drop user [username];</code></p>
+</li>
+<li><p>创建<code>dbname</code>数据库：<code>create database [dbname];</code></p>
+</li>
+<li><p>删除数据库：<code>drop database [dbname];</code></p>
+</li>
+<li><p>创建数据库表：<code>CREATE TABLE COMPANY( ID INT PRIMARY KEY NOT NULL, NAME TEXT NOT NULL, AGE INT NOT NULL, ADDRESS CHAR(50), SALARY REAL);</code></p>
+</li>
+<li><p>删除数据库表： <code>drop table company;</code></p>
+</li>
+<li><p>删除行：<code>DELETE FROM [table name] WHERE [column name] = &#39;[column name]&#39;;</code></p>
+</li>
+</ol>
+<blockquote>
+<p>参考：<a href="https://www.postgresql.org/">官网</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DataBase</category>
+      </categories>
+      <tags>
+        <tag>DataBase</tag>
+        <tag>PostgreSQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Bash相关</title>
+    <url>/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Bash%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<p>在类 Unix 上的 shell 是可以用来执行系统调用和系统命令的，一般默认运行一种能给用户提供命令行环境的程序，如 bash、csh、zsh 等等，其中 Linux 一般默认是 bash，mac 则默认是 zsh。</p>
+<h2 id="终端"><a href="#终端" class="headerlink" title="终端"></a>终端</h2><blockquote>
+<p>参考：<a href="https://www.jianshu.com/p/a891af6f87e0">博客</a></p>
+</blockquote>
+<p>操作系统分为两个部分，一部分称作内核，另一部分成为用户交互界面，终端就是连接内核与交互界面的这座桥。反正 shell 是一个程序，分辨一下自己使用的是哪个程序，然后使用就行了。</p>
+<h3 id="Bash"><a href="#Bash" class="headerlink" title="Bash"></a>Bash</h3><p>**Bash 的默认配置文件是<code>~/.bash_profile</code>**，是 Linux 的默认 shell，由 GNU 组织开发。</p>
+<h3 id="Zsh"><a href="#Zsh" class="headerlink" title="Zsh"></a>Zsh</h3><p>**Zsh 的默认配置文件是<code>~/.zshrc</code>**，兼容 bash，还有自动补全等好用的功能，使用起来更加优雅。</p>
+<h3 id="相互切换"><a href="#相互切换" class="headerlink" title="相互切换"></a>相互切换</h3><p>可以在命令行切换，切换命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">chsh -s /bin/bash   <span class="comment"># 切换到bash</span></span><br><span class="line">chsh -s /bin/zsh   <span class="comment"># 切换到zsh</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="配置文件"><a href="#配置文件" class="headerlink" title="配置文件"></a>配置文件</h2><blockquote>
+<p>参考：<a href="https://www.jianshu.com/p/35ad1b375e50">博客</a>，<a href="https://blog.csdn.net/qq_32457341/article/details/104452084">&#x2F;etc&#x2F;profile 详解</a>，<a href="https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/">Bash 和 Zsh 配置文件执行顺序详解</a></p>
+</blockquote>
+<p>常常在碰到环境配置问题的时候，往往要修改一堆配置文件，比如 <code>/etc/profile</code>，<code>.bashrc</code>，或者 <code>.zshrc</code> 等等，就一直不懂这些是怎么配置运行的，现在来理一理。</p>
+<h3 id="Bash-1"><a href="#Bash-1" class="headerlink" title="Bash"></a>Bash</h3><p>Bash 有几种不同的运行模式，login shell 与 non-login shell，interactive shell 与 non-interactive shell（比如执行 shell 脚本）。这两种分类方法是交叉的，也就是说一个 login shell 可能是一个 interactive shell，也可能是个 non-interactive shell。</p>
+<p>login shell 与 non-login shell 的<strong>主要区别</strong>在于它们<strong>启动时会读取不同的配置文件，从而导致环境不一样</strong>。</p>
+<p><strong>配置文件的执行顺序为</strong>：</p>
+<ul>
+<li><strong>Interactive login</strong>：<code>/etc/profile</code>→ <code>(~/.bash_profile | ~/.bash_login | ~/.profile)</code>→<code>~/.bash_logout</code>。其中，<code>~/.bash_profile</code>、 <code>~/.bash_login</code> 和 <code>~/.profile</code> 这三个文件只会读取一个，按照这个顺序读取，读一个就行。</li>
+<li><strong>Interactive non-login</strong>：<code>/etc/bash.bashrc</code> →<code>~/.bashrc</code> 。注意在 Linux 里面是<code>/etc/bash.bashrc</code>文件，但是在 MacOS 里面好像就是直接是<code>/etc/bashrc</code>。</li>
+<li><strong>Script</strong>：<code>BASH_ENV</code></li>
+</ul>
+<p>Interactive non-login 模式是最常用的。</p>
+<p><strong>文件详解</strong>：</p>
+<ul>
+<li><p><code>/etc/profile</code>：这个文件里面存储了类 Unix 系统中配置的一些全局变量，这些变量对所有的用户可以用。当单个用户登陆系统时，首先会加载 <code>/etc/profile</code> 中的全局变量的信息。在有的时候，我们采用一些其他的方式登录时，有些全局变量是不起作用的，这个时候需要执行下面的语句：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+
+<p>就可以将全局变量刷新。</p>
+</li>
+<li><p><code>/etc/bashrc</code>or<code>/etc/bash.bashrc</code>：为每一个运行 bash shell 的用户执行此文件。当 bash shell 被打开时,该文件被读取（即每次新开一个终端，都会执行 bashrc）。</p>
+</li>
+<li><p><code>~/.bash_profile</code>：每个用户都可使用该文件输入专用于自己使用的 shell 信息,当用户登录时,该文件仅仅执行一次。默认情况下,设置一些环境变量,执行用户的<code>.bashrc</code>文件。</p>
+</li>
+<li><p><code>~/.bash_login</code>：</p>
+</li>
+<li><p><code>~/.profile</code>：</p>
+</li>
+<li><p><code>~/.bashrc</code>：该文件包含专用于你的 bash shell 的 bash 信息，当登录时以及每次打开新的 shell 时,该该文件被读取。</p>
+</li>
+<li><p><code>~/.bash_logout</code>：当每次退出 bash shell 时,执行该文件</p>
+</li>
+</ul>
+<h3 id="Zsh-1"><a href="#Zsh-1" class="headerlink" title="Zsh"></a>Zsh</h3><p><strong>配置文件的执行顺序为</strong>：</p>
+<ul>
+<li><strong>Interactive login</strong>：<code>/etc/zshenv</code>→ <code>(~/.zshenv </code> → <code>/etc/zprofile</code> → <code>~/.zprofile</code> → <code>/etc/zshrc</code> → <code>~/.zshrc</code> → <code>/etc/zlogin</code> → <code>~/.zlogin</code> → <code>~/.zlogout</code> → <code>/etc/zlogout</code></li>
+<li><strong>Interactive non-login</strong>：<code>/etc/zshenv</code>→ <code>(~/.zshenv </code> → <code>/etc/zshrc</code></li>
+<li><strong>Script</strong>：<code>/etc/zshenv</code>→ <code>(~/.zshenv </code></li>
+</ul>
+<h2 id="编程语法"><a href="#编程语法" class="headerlink" title="编程语法"></a>编程语法</h2><blockquote>
+<p>参考：<a href="https://wangdoc.com/bash/">阮一峰的网络日志</a>，<a href="https://www.jianshu.com/p/e1c8e5bfa45e">Bash 编程入门</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>basic knowledge</category>
+      </categories>
+      <tags>
+        <tag>Bash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Conda相关</title>
+    <url>/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Conda%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<p>Conda 是一个开源的软件包管理系统和环境管理系统，用于安装多个版本的软件包及其依赖关系，并在它们之间轻松切换。 Conda 是为 Python 程序创建的，适用于 Linux，OS X 和 Windows，也可以打包和分发其他软件。</p>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><ul>
+<li><p>创建环境：<code>conda create -n [name] python=3.8</code></p>
+</li>
+<li><p>删除环境：<code>conda remove -n [name] --all</code></p>
+</li>
+<li><p>复制环境：<code>conda create -n [newenv] --clone [oldenv]</code></p>
+</li>
+<li><p>激活环境：<code>conda activate [name]</code></p>
+</li>
+<li><p>退出环境：<code>conda deactivate</code></p>
+</li>
+<li><p>显示所有环境： <code>conda env list</code>，<code>conda info -e</code></p>
+</li>
+<li><p>显示已安装的包：<code>conda list</code></p>
+</li>
+<li><p>搜索包：<code>conda search [name]</code></p>
+</li>
+<li><p>安装：<code>conda install [name]</code></p>
+</li>
+<li><p>卸载：<code>conda uninstall [name]</code></p>
+</li>
+<li><p>删除没有用的包：<code>conda clean -p</code></p>
+</li>
+<li><p>添加新镜像源：<code>conda config --add channels [channelsurl]</code></p>
+<ul>
+<li>-channels:<ul>
+<li><code>- https://mirrors.sjtug.sjtu.edu.cn/anaconda/pkgs/main/</code></li>
+<li><code>- https://mirrors.sjtug.sjtu.edu.cn/anaconda/pkgs/free/</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="与-pip-的区别"><a href="#与-pip-的区别" class="headerlink" title="与 pip 的区别"></a>与 pip 的区别</h3><p><strong>pip</strong></p>
+<blockquote>
+<ul>
+<li><strong>pip 专门管理 Python 包</strong></li>
+<li><strong>编译源码中的所有内容</strong>。 <strong>（源码安装）</strong></li>
+<li>由核心 Python 社区所支持（即，Python 3.4+包含可自动增强 pip 的代码）。</li>
+</ul>
+</blockquote>
+<p><strong>conda</strong></p>
+<blockquote>
+<ul>
+<li>conda 本身是用 Python 编写的，但你也可以为 C 库或 R 软件包或任何其他软件包提供 conda 软件包。</li>
+<li>安装的是二进制文件。 有一个名为 conda build 的工具，它可以从源代码构建软件包，但 conda install 本身会安装已经构建的 conda 软件包中的东西。</li>
+<li>Conda 是 Anaconda 的包管理器，由 Continuum Analytics 提供的 Python 发行版，但它也可以在 Anaconda 之外使用。 您可以使用现有的 Python 安装，通过 pip 安装它（尽管除非您有充分理由使用现有安装，否则不建议这样做）。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>参考：<a href="https://docs.conda.io/en/latest/">官方文档</a>，<a href="https://anaconda.org/anaconda/conda">Anaconda</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>basic knowledge</category>
+      </categories>
+      <tags>
+        <tag>Conda</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Git相关</title>
+    <url>/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Git%E7%9B%B8%E5%85%B3/</url>
+    <content><![CDATA[<p>Git 是一个分布式版本控制系统，CVS 及 SVN 都是集中式的版本控制系统。</p>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><p>有必要整理一下 Git 的工作流程</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><ul>
+<li><code>git init</code>：把当前文件夹初始化为一个仓库</li>
+<li><code>rm -rf .git</code>：删除仓库，本质就是删除.git 文件夹，ls -a 能看到全部文件夹</li>
+<li><code>git status</code>：查看 git 状态</li>
+</ul>
+<p>git 不同的项目有不用的用户，应该有方便的设置来进行吧，不用每次都切换一下吧？</p>
+<ul>
+<li><p><code>git config --global user.name &quot;Jinzhao Tian&quot; </code>：设置 git 自己的名字</p>
+</li>
+<li><p><code>git config --global user.email &quot;tianjinzhao@sjtu.edu.cn&quot;</code>：和电子邮件</p>
+</li>
+<li><p><code>git config -l</code>：查看用户信息</p>
+</li>
+<li><p><code>git config --local --list</code>：查看当前仓库配置信息</p>
+</li>
+<li><p><code>git branch</code>：查看所有分支</p>
+</li>
+<li><p><code>git branch [name]</code>：创建分支</p>
+</li>
+<li><p><code>git branch -d [name]</code>：删除分支</p>
+</li>
+<li><p><code>git checkout [name]</code>：切换分支</p>
+</li>
+<li><p><code>git checkout -b [name]</code>：创建<code>[name]</code>分支，并切换到<code>[name]</code>分支</p>
+</li>
+<li><p><code>git merge [name]</code>：把<code>[name]</code>分支合并到<code>main</code>分支上</p>
+</li>
+<li><p><code>git pull --rebase</code>：就是你在你的分支上开发的时候，主分支又 merge 了一部分，那你当前的分支对应主分支上的起点就不是最新的 origin master HEAD 的，所以 pull request 的时候就要 rebase 一下，将你的分支的起点重新定位到最新的 origin master HEAD。</p>
+</li>
+<li><p><code>git stash</code>：将修改的内容保存至堆栈区，等待另一个修改完成，再用<code>git stash pop</code>将你做的修改恢复一下，比如说直接 pull origin master 会冲突，就先放在堆栈区，合并了再弹出。</p>
+</li>
+<li><p><code>git branch -M main</code>：快捷修改当前项目的分支为 main</p>
+</li>
+<li><p><code>git config --global init.defaultBranch main</code>：修改默认分支为 main 分支</p>
+</li>
+<li><p><code>git log</code>：列出当前分支的历史提交信息。</p>
+</li>
+<li><p><code>git reflog</code>：列出当前分支的所有 commit，reset 的相关命令列表，这是 repo 的 undo 历史。可以用<code>git reset --hard [历史号]</code>来回退到先前的状态。</p>
+</li>
+<li><p><code>git add [filename]</code>：添加文件到缓存区，filename 为 <code>.</code> 的时候表示所有文件。</p>
+</li>
+<li><p><code>git reset HEAD [filename]</code>：撤销已经提交的缓存区的修改后文件，HEAD 表示最新的版本。一般常用的有<code>git reset --soft [sha256]</code>，用来撤回提交的 commit，把 commit 放回 staged 区，已经做的更改不会丢失。</p>
+</li>
+<li><p><code>git commit -m “balabala”</code>：提交</p>
+</li>
+<li><p><code>git reset --hard [commit_id]</code>：版本回退，已经做的更改会丢失。</p>
+</li>
+<li><p><code>git rm [filename]</code>：已用<code>rm [filename]</code>命令删除文件后，如果确实要从版本库删除该文件，则使用该命令</p>
+</li>
+<li><p><code>git checkout -- [filename]</code>：如果删错了，用这个命令还原。<code>git checkout</code>：其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”</p>
+</li>
+<li><p><code>git remote -v</code>：查看远程仓库的状态</p>
+</li>
+<li><p><code>git remote add origin https://github.com/***/***.git</code>：为本仓库添加远程仓库，远程仓库要自己建立好</p>
+</li>
+<li><p><code>git remote rm origin</code>：删除远程仓库</p>
+</li>
+<li><p><code>git push -u origin main</code>：推送到远程仓库，第一次要加-u，以后不用</p>
+</li>
+<li><p><code>git pull origin main</code>：把远程仓库的内容拉进来</p>
+</li>
+<li><p><code>git clone https://github.com/***/***.git </code>: 克隆别人的代码仓库</p>
+<p><strong>注意</strong>：</p>
+<p>GitHub 进行了更新，<code>git clone https://&lt;username&gt;:&lt;githubtoken&gt;@github.com/&lt;username&gt;/&lt;repositoryname&gt;.git</code>，使用了 personal Token 来代替密码，每个账户生成一个 Token，然后具体的权限在生成 Token 时进行选择。<a href="https://stackoverflow.com/questions/68775869/support-for-password-authentication-was-removed-please-use-a-personal-access-to">参考</a></p>
+</li>
+</ul>
+<h2 id="Commit-Message"><a href="#Commit-Message" class="headerlink" title="Commit Message"></a>Commit Message</h2><p>从今天开始规范我的 commit message，具体规范参考<a href="https://zhuanlan.zhihu.com/p/182553920">文章</a>。</p>
+<h3 id="具体格式"><a href="#具体格式" class="headerlink" title="具体格式"></a>具体格式</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br></pre></td></tr></table></figure>
+
+<p>字段解释：</p>
+<ol>
+<li><p><strong>type</strong>：用于说明 git commit 的类别，只允许使用下面的标识</p>
+<ul>
+<li>feat：新功能（feature）。</li>
+<li>fix&#x2F;to：修复 bug，可以是 QA 发现的 BUG，也可以是研发自己发现的 BUG。</li>
+<li>docs：文档（documentation）。</li>
+<li>style：格式（不影响代码运行的变动）。</li>
+<li>refactor：重构（即不是新增功能，也不是修改 bug 的代码变动）。</li>
+<li>perf：优化相关，比如提升性能、体验。</li>
+<li>test：增加测试。</li>
+<li>chore：构建过程或辅助工具的变动。</li>
+<li>revert：回滚到上一个版本。</li>
+<li>merge：代码合并。</li>
+<li>sync：同步主线或分支的 Bug。</li>
+</ul>
+</li>
+<li><p><strong>scope</strong>：用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同。</p>
+<p>在我这个项目中可以是不同的目录吧</p>
+</li>
+<li><p><strong>subject</strong>：是 commit 目的的简短描述，不超过 50 个字符。</p>
+<p>建议使用中文（感觉中国人用中文描述问题能更清楚一些）。结尾不加句号或其他标点符号。</p>
+</li>
+</ol>
+<blockquote>
+<p>参考：<a href="https://git-scm.com/">官方网站</a>，<a href="https://www.jianshu.com/p/382abb427ca9">Git 详解</a>，<a href="https://docs.microsoft.com/zh-cn/learn/paths/github-administration-products/">微软官方文档</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>basic knowledge</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux常用命令</title>
+    <url>/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>这个总结 Linux 的常用命令，cd，ls，rm，mkdir 等等。</p>
+<h2 id="下载-wget"><a href="#下载-wget" class="headerlink" title="下载 wget"></a>下载 wget</h2><p>wget 是 linux 下一个从网络上自动下载文件的常用自由工具。它支持 HTTP，HTTPS 和 FTP 协议，可以使用 HTTP 代理。一般的使用方法是: wget + 空格 + 参数 + 要下载文件的 url 路径：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">wget [] http://www.linuxsense.org/xxxx/xxx.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>常用参数:</p>
+<ul>
+<li><p>-b：后台下载，Wget 默认的是把文件下载到当前目录。</p>
+</li>
+<li><p>-O：将文件下载到指定的目录中。</p>
+</li>
+<li><p>-P：保存文件之前先创建指定名称的目录。</p>
+</li>
+<li><p>-t：尝试连接次数，当 Wget 无法与服务器建立连接时，尝试连接多少次。</p>
+</li>
+<li><p>-c：断点续传，如果下载中断，那么连接恢复时会从上次断点开始下载。</p>
+</li>
+<li><p>-r：使用递归下载</p>
+</li>
+</ul>
+<h2 id="进程交互"><a href="#进程交互" class="headerlink" title="进程交互"></a>进程交互</h2><ul>
+<li>ps：查看静态的进程统计信息（一般结合选项使用 ps aux 或 ps -elf 命令）</li>
+<li>top：查看进程动态信息（以全屏交互式的界面显示进程排名，及时跟踪系统资源占用情况）<br>交互命令：<ul>
+<li>M：根据内存情况进行排序</li>
+<li>N：根据启动时间进行排序</li>
+<li>P：根据 CPU 占用情况进行排序</li>
+<li>Q：退出</li>
+</ul>
+</li>
+<li>pgrep：查询进程信息（可以指定进程的一部分名称进行查询，通常结合 “ - l ” 选项）</li>
+<li>ptree：查看进程树（该命令查询的信息比较复杂，而且之前的命令完全满足我们查询进程信息的需要，所以就略过，通常使用 pstree -aup 或 pstree {用户名} 来使用）</li>
+<li>job：<code>jobs -l</code> 查看当前终端中在后台运行的进程任务，并显示该进程的 PID 号</li>
+<li>kill：终止进程，格式：<code>kill PID</code>。</li>
+</ul>
+<h2 id="查看-ls"><a href="#查看-ls" class="headerlink" title="查看 ls"></a>查看 ls</h2><blockquote>
+<p>参考：<a href="https://linux.cn/article-5109-1.html">总结</a></p>
+</blockquote>
+<ul>
+<li>-a：查看所有文件，包括隐藏文件</li>
+<li>-l：查看所有文件权限，大小(字节)，创建时间修改时间，文件名</li>
+<li>-lh：与上面大致相同，只不过大小使用的是 MB 或者 GB 之类的</li>
+<li>-R：能列出非常长的目录树</li>
+<li>-lS：组合选项能按文件从大到小的次序显示</li>
+<li>–help：帮助页面</li>
+</ul>
+<h2 id="打包-tar"><a href="#打包-tar" class="headerlink" title="打包 tar"></a>打包 tar</h2><ul>
+<li>-z ：使用 gzip 来压缩和解压文件</li>
+<li>-v ：–verbose 详细的列出处理的文件</li>
+<li>-f ：–file&#x3D;ARCHIVE 使用档案文件或设备，这个选项通常是必选的</li>
+<li>-c ：–create 创建一个新的归档（压缩包）</li>
+<li>-x ：从压缩包中解出文件</li>
+</ul>
+<p>解压：</p>
+<ul>
+<li><code>tar –xvf filename.tar ~/path/</code>：解压 tar 包，到文件夹</li>
+<li><code>tar -zxvf filename.tar.gz</code>：解压 tar.gz</li>
+<li><code>tar -jxvf filename.tar.bz2</code>：解压 tar.bz2</li>
+<li><code>tar -Zxvf filename.tar.Z</code>：解压 tar.Z</li>
+</ul>
+<p>压缩：</p>
+<ul>
+<li><code>tar –cvf filename.tar * </code>：将目录里所有文件打包成 filename.tar</li>
+<li><code>tar –zcf filename.tar.gz *</code>：将目录里所有文件打包成 filename.tar 后，并且将其用 gzip 压缩，生成一个 gzip 压缩过的包，命名为 filename.tar.gz</li>
+<li><code>tar –jcf filename.tar.bz2 * </code>：将目录里所有文件打包成 filename.tar 后，并且将其用 bzip2 压缩，生成一个 bzip2 压缩过的包，命名为 filename.tar.bz2</li>
+<li><code>tar –Zcf filename.tar.Z *</code>：将目录里所有文件打包成 filename.tar 后，并且将其用 compress 压缩，生成一个 umcompress 压缩过的包，命名为 filename.tar.Z</li>
+</ul>
+<p>解压 zip：<code>unzip [选项] 压缩包名</code></p>
+<ul>
+<li>-d 目录名：将压缩文件解压到指定目录下。</li>
+<li>-n： 解压时并不覆盖已经存在的文件。</li>
+<li>-o： 解压时覆盖已经存在的文件，并且无需用户确认。</li>
+<li>-v：查看压缩文件的详细信息，包括压缩文件中包含的文件大小、文件名以及压缩比等，但并不做解压操作。</li>
+<li>-t：测试压缩文件有无损坏，但并不解压。</li>
+<li>-x 文件列表：解压文件，但不包含文件列表中指定的文件。</li>
+</ul>
+<h2 id="移动-mv"><a href="#移动-mv" class="headerlink" title="移动 mv"></a>移动 mv</h2><ul>
+<li><p>修改文件或者文件夹的名：<code>mv name1 name2</code></p>
+</li>
+<li><p>移动文件或者文件夹，到文件夹：<code>mv filename wenjianja/</code></p>
+<ul>
+<li>-f：强制覆盖，如果目标文件已经存在，则不询问，直接强制覆盖；</li>
+<li>-i：交互移动，如果目标文件已经存在，则询问用户是否覆盖（默认选项）；</li>
+<li>-n：如果目标文件已经存在，则不会覆盖移动，而且不询问用户；</li>
+<li>-v：显示文件或目录的移动过程；</li>
+<li>-u：若目标文件已经存在，但两者相比，源文件更新，则会对目标文件进行升级；</li>
+</ul>
+</li>
+</ul>
+<h2 id="删除-rm"><a href="#删除-rm" class="headerlink" title="删除 rm"></a>删除 rm</h2><ul>
+<li>删除文件：<code>rm [选项] 文件或目录</code><ul>
+<li>-f：强制删除（force），和 -i 选项相反，使用 -f，系统将不再询问，而是直接删除目标文件或目录。</li>
+<li>-i：和 -f 正好相反，在删除文件或目录之前，系统会给出提示信息，使用 -i 可以有效防止不小心删除有用的文件或目录。</li>
+<li>-r：递归删除，主要用于删除目录，可删除指定目录及包含的所有内容，包括所有的子目录和文件。</li>
+</ul>
+</li>
+</ul>
+<h2 id="复制-cp"><a href="#复制-cp" class="headerlink" title="复制 cp"></a>复制 cp</h2><p>用来复制文件和目录，同时借助某些选项，还可以实现复制整个目录，以及比对两文件的新旧而予以升级等功能。</p>
+<ul>
+<li>复制：<code>cp [选项] 源文件 目标文件</code><ul>
+<li>-a：相当于 -d、-p、-r 选项的集合，这几个选项我们一一介绍；</li>
+<li>-d：如果源文件为软链接（对硬链接无效），则复制出的目标文件也为软链接；</li>
+<li>-i：询问，如果目标文件已经存在，则会询问是否覆盖；</li>
+<li>-l：把目标文件建立为源文件的硬链接文件，而不是复制源文件；</li>
+<li>-s：把目标文件建立为源文件的软链接文件，而不是复制源文件；</li>
+<li>-p：复制后目标文件保留源文件的属性（包括所有者、所属组、权限和时间）；</li>
+<li>-r：递归复制，用于复制目录；</li>
+<li>-u：若目标文件比源文件有差异，则使用该选项可以更新目标文件，此选项可用于对文件的升级和备用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="挂载-mount"><a href="#挂载-mount" class="headerlink" title="挂载 mount"></a>挂载 mount</h2><p>注意，挂载移动硬盘需要使用具有 root 权限的账号才可以。</p>
+<ul>
+<li>首先使用<code>sudo fdisk -l</code>，查看移动硬盘信息，连接前和连接后各使用一次，这样就可以找到移动硬盘是哪个了。</li>
+<li>然后需要建立一个挂载目录，<code>mkdir ~/disk</code>，挂载了之后切入到这个目录下面就是硬盘的内容了。</li>
+<li>最后使用 mount 命令，<code>sudo mount /dev/sda1 ~/disk</code>，此时的<code>disk</code>文件夹对于普通用户是没有写操作的权限的，需要使用<code>chmod</code>命令修改文件夹权限，<code>sudo chmod 777 ~/disk/</code>。</li>
+</ul>
+<h2 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h2><p>修改权限是一个比较经常做的一个操作，比如将一个脚本变成可执行脚本，这里总结一下关于这部分的内容。</p>
+<h3 id="文件权限"><a href="#文件权限" class="headerlink" title="文件权限"></a>文件权限</h3><p>这时候就要贴一个经典的图了：</p>
+<p><img src="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/LinuxCommand-image-1.png" alt="image-20210424210653703"></p>
+<p>把文件的权限想成二进制位，三个一组，共有三组，分别代表文件所有者（u，user），文件所属组用户（g，group）和其他用户（o，other），一组是 rwx 读写和执行，rwx 出现就代表 1，出现（-）就代表 0。</p>
+<p>最左边部分是一个单独的字符位，代表文件的类型，（-）代表普通文件，（d）代表目录，（l 小写 L）代表软链接，（c）字符设备，（s）套接字。</p>
+<p>举个例子就是，下面这样：</p>
+<p><img src="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/LinuxCommand-image-2.png" alt="image-20210424210937082"></p>
+<p>第一个文件最前面的部分是 <code>-rw-rw-r--</code>，分组一下就是 <code>-\rw-\rw-\r--</code>，一点点翻译就是：普通文件，文件所有者的权限是读 r 和写 w，文件所属组用户权限是读 r 和写 w，其他用户的权限是读 r，权限代表的数字就是 $ rw- &#x3D; 110*{2} &#x3D; 6*{10} $ 。</p>
+<h3 id="chmod"><a href="#chmod" class="headerlink" title="chmod"></a>chmod</h3><p>所以修改权限的方式有两种，一种是字符形式的，一种是数字形式的，如我们想设置文件 <code>preprocess.sh</code> 的权限为 <code>rwxr--r--</code> 时：</p>
+<ul>
+<li>字符形式：<code>chmod u=rwx,go=r preprocess.sh</code>，其中 u 代表的是文件所有者，g 代表所属组，o 代表其他人，想给他们什么权限就给出 rwx 就行，不仅可以使用符号 &#x3D; （代表设定权限），还可以使用符号 +（代表加入权限），符号 -（代表删除权限）。</li>
+<li>数字形式：<code>chmod 744 preprocess.sh</code>，其中所有人 $ &#x3D; rwx &#x3D; 4 + 2 + 1 &#x3D; 7 $，所属组 &#x3D; 其他人 $ &#x3D; r– &#x3D; 4 + 0 + 0 &#x3D; 4 $。</li>
+</ul>
+<p>文件所属类型应该是改不了的。</p>
+]]></content>
+      <categories>
+        <category>basic knowledge</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Linux系统</title>
+    <url>/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F/</url>
+    <content><![CDATA[<p>Linux 系统中的文件夹详情以及作用：主目录下面的文件夹，以下部分文件夹都是 Linux 和 MacOS 共有的：</p>
+<ul>
+<li><code>/bin</code>：binary ，用于存放经常使用的命令</li>
+<li><code>/sbin</code>： super binary， 系统超集管理员使用的系统管理程序</li>
+<li><code>/dev</code>：device ，外部设备</li>
+<li><code>/etc</code>： 用于存放各种系统配置和管理配置（名字来源于法语 et cetera，意思就是 etc…，表示还有一些其他的东西等等，其实就是指一堆杂项，不过现在就用来存放一堆配置文件了）</li>
+<li><code>/home</code>：用户目录，里面按用户名命名了子文件夹</li>
+<li><code>/var</code>：经常被修改的文件可以放到这个目录，比如说日志文件</li>
+<li><code>/opt</code>：用于安装软件的目录</li>
+<li><code>/tmp</code>：用于存放一些临时文件</li>
+<li><code>/usr</code>：用户的应用程序和文件都在此目录下，类似于 Windows 系统中的 Program Files 目录</li>
+</ul>
+<p>下面是 Linux 里面特有的文件夹：</p>
+<ul>
+<li><code>/root</code>：超级管理员 root 用户的主目录</li>
+<li><code>/mnt</code>：mount ，系统提供此文件夹用于给用户挂载其他的文件系统，例如光驱</li>
+<li><code>/boot</code>： boot ，启动时的一些核心文件</li>
+<li><code>/sys</code>：存放 Linux 系统内核文件</li>
+<li><code>/lost+found</code>：一般情况下是空的，但在非法关闭后，这里就会存放一些文件</li>
+<li><code>/srv</code>：service 存放一些服务启动之后需要提取的数据。</li>
+<li><code>/media</code>：识别出的 U 盘，光驱等会在这个目录下</li>
+<li><code>/proc</code>： 是一个虚拟目录，是系统的内存映射，可通过访问此目录获取系统信息（这个目录的内容不在硬盘上而在内存里）</li>
+<li><code>/lib</code>：library ，存放系统最基本的动态链接共享库</li>
+</ul>
+<p>下面是 MacOS 特有的：</p>
+<ul>
+<li><code>Applications</code>：应用程序，存放各种软件。</li>
+<li><code>Users</code>：用户，包含了某个用户专有的资源。这里也有一个 Library 文件夹，不同与上边的那个 Library，是专为你的帐号服务，里面放的是你自己的个性化字体、配置文件等。</li>
+<li><code>System</code>：此资源是系统正常运行所必须的，位于启动卷宗中，在该区域中，用户不允许添加、删除或更改这些资源。</li>
+<li><code>Library</code>：系统资源，比如字体、ColorSync 配置、偏好设置以及插件都应该安装在 Library 目录下适当的子目录中。</li>
+<li><code>Volumes</code>：硬盘</li>
+<li><code>cores</code>：</li>
+<li><code>private</code>：</li>
+</ul>
+<blockquote>
+<p>参考：<a href="https://cloud.tencent.com/developer/article/1584261">博客</a></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>basic knowledge</category>
+      </categories>
+      <tags>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>ssh命令</title>
+    <url>/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/ssh%E5%91%BD%E4%BB%A4/</url>
+    <content><![CDATA[<p>SSH 为 Secure Shell Protocol 的缩写，由 IETF 的网络小组（Network Working Group）所制定；SSH 为建立在应用层基础上的安全协议。SSH 是较可靠，专为远程登录会话和其他网络服务提供安全性的协议。利用 SSH 协议可以有效防止远程管理过程中的信息泄露问题。SSH 最初是 UNIX 系统上的一个程序，后来又迅速扩展到其他操作平台。SSH 在正确使用时可弥补网络中的漏洞。</p>
+<p>ssh 是安全的加密协议，用于远程链接 linux 服务，ssh 默认端口是 22，安全协议版本 sshv2，出来 2 之外还有 1（有漏洞）。ssh 服务端主要包括两个服务功能 ssh 远程链接和 sftp 服务，Linux ssh 客户端包括 ssh 远程链接命令，以及远程拷贝 scp 命令等。</p>
+<h3 id="服务器端设置"><a href="#服务器端设置" class="headerlink" title="服务器端设置"></a>服务器端设置</h3><h4 id="安装服务"><a href="#安装服务" class="headerlink" title="安装服务"></a>安装服务</h4><p>首先 Linux 服务器端要安装服务程序，因为 ubuntu 默认没有安装 ssh server 的，只有 ssh client。可以运行下面命令一键安装：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo apt-get install ssh openssh-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="ssh-免密登陆设置"><a href="#ssh-免密登陆设置" class="headerlink" title="ssh 免密登陆设置"></a>ssh 免密登陆设置</h4><p>我觉得免密登陆就是自动验证私钥公钥，具体方法就是，在客户端生成密钥对，然后将公钥传到服务器端（github 也是这样用的）。首先在客户端生成密钥对：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C tianjinzhao@sjtu.edu.cn</span><br></pre></td></tr></table></figure>
+
+<p>参数：</p>
+<ul>
+<li>-b：采用长度 1024bit 的密钥对, b&#x3D;bits,最长 4096，不过没啥必要</li>
+<li>-t： rsa 采用 rsa 加密方式, t&#x3D;type</li>
+<li>-f： 生成文件名, f&#x3D;output_keyfiles</li>
+<li>-C： 备注，C&#x3D;comment。就是 pub key 最后一段的用户信息。</li>
+</ul>
+<p>然后将公钥传到服务器上：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ssh-copy-id -p 12347 username@10.211.55.3</span><br></pre></td></tr></table></figure>
+
+<p>传送好就可以免密登陆了，username 是在服务器端给你分配的账号。免密登陆就是：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ssh -p 12347 username@10.211.55.3</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端设置"><a href="#客户端设置" class="headerlink" title="客户端设置"></a>客户端设置</h3><p>对于 Mac 和 Linux 来说，Terminal 上默认就有 ssh，只需要使用命令登陆就好了，比如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">ssh 10.211.55.3            <span class="comment"># 默认利用当前宿主用户的用户名登录</span></span><br><span class="line">ssh parallels@10.211.55.3  <span class="comment"># 利用远程机的用户登录</span></span><br><span class="line">ssh parallels@10.211.55.3 -o stricthostkeychecking=no     <span class="comment"># 首次登陆免输yes登录</span></span><br><span class="line">ssh parallels@10.211.55.3 <span class="string">&quot;ls /home/parallels&quot;</span>            <span class="comment"># 当前服务器A远程登录服务器B后执行某个命令</span></span><br><span class="line">ssh parallels@10.211.55.3 -t <span class="string">&quot;sh /home/parallels/ftl.sh&quot;</span>  <span class="comment"># 当前服务器A远程登录服务器B后执行某个脚本</span></span><br></pre></td></tr></table></figure>
+
+<p>然后输入账号密码就可以，其中 parallels 在本例中是服务器端已有的账户名，10.211.55.3 是服务器端的 ip 地址，这个 ip 地址也可以是域名。</p>
+<p>常见的 ssh 命令参数：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">usage: ssh [-1246AaCfgKkMNnqsTtVvXxYy] [-b bind_address] [-c cipher_spec]</span><br><span class="line">           [-D [bind_address:]port] [-e escape_char] [-F configfile]</span><br><span class="line">           [-i identity_file] [-L [bind_address:]port:host:hostport]</span><br><span class="line">           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]</span><br><span class="line">           [-R [bind_address:]port:host:hostport] [-S ctl_path]</span><br><span class="line">           [-W host:port] [-w local_tun[:remote_tun]]</span><br><span class="line">           [user@]hostname [<span class="built_in">command</span>]</span><br></pre></td></tr></table></figure>
+
+<p>退出登陆</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">logout</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="补充：查询-ip-地址的方法："><a href="#补充：查询-ip-地址的方法：" class="headerlink" title="补充：查询 ip 地址的方法："></a>补充：查询 ip 地址的方法：</h4><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ip addr show</span><br><span class="line"><span class="comment"># 或者</span></span><br><span class="line">$ ip a</span><br></pre></td></tr></table></figure>
+
+<h3 id="SSH-传输文件"><a href="#SSH-传输文件" class="headerlink" title="SSH 传输文件"></a>SSH 传输文件</h3><p>ssh 一般使用 scp 命令传输文件。</p>
+<p>如从服务器端下载文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ scp username@servername:/path/filename /var/www/local_dir/             <span class="comment"># 下载文件</span></span><br><span class="line">$ scp -r username@servername:/var/www/remote_dir/ /var/www/local_dir/    <span class="comment"># 下载目录</span></span><br></pre></td></tr></table></figure>
+
+<p>将<code>filename</code>文件下载到本地目录<code> /var/www/local_dir</code>下。</p>
+<p>上传本地文件到服务器：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ scp -P 12347 /path/filename username@servername:/path/          <span class="comment"># 上传文件，指定端口12347</span></span><br><span class="line">$ scp -P 12347 -r local_dir/ username@servername:remote_dir/       <span class="comment"># 上传目录</span></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>basic knowledge</category>
+      </categories>
+      <tags>
+        <tag>ssh</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>参考文献引用标准</title>
+    <url>/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E5%BC%95%E7%94%A8%E6%A0%87%E5%87%86/</url>
+    <content><![CDATA[<p>撰写论文的时候，参考文献必不可少。近日闲来无事，系统整理了一下中英文参考文献的引用格式，以及一些文献类型。中文英文的参考文献引用格式都有不同的标准，中文常见的有国标等，英文针对不同种类的期刊有不同的格式要求，常见的有哈佛格式等等。文章的最后还可以整理一下 endnote 里面的格式。</p>
 <h2 id="论文文献引用格式"><a href="#论文文献引用格式" class="headerlink" title="论文文献引用格式"></a>论文文献引用格式</h2><p>主要的英文论文引用格式规范有 APA，AMA，ACS，AMJ，<strong>IEEE</strong>，MLA，和 Harvard Gatton。中文文献的引用格式看国标就行了。</p>
 <ul>
 <li>【APA(6th edition)-美国心理学会(American Psychological Association)】<ul>
@@ -183,10 +791,332 @@
 </ul>
 ]]></content>
       <categories>
-        <category>基础知识</category>
+        <category>basic knowledge</category>
       </categories>
       <tags>
-        <tag>基础知识</tag>
+        <tag>basic knowledge</tag>
+        <tag>reference</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hadoop</title>
+    <url>/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hadoop/</url>
+    <content><![CDATA[<p>Hadoop 起源于 2003 年，Google 发表了一篇技术学术论文，公开介绍了自己的谷歌文件系统<strong>GFS（Google File System）</strong>。这是 Google 公司为了存储海量搜索数据而设计的专用文件系统。2004 年，Doug Cutting 基于 Google 的 GFS 论文，实现了<strong>分布式文件存储系统</strong>，并将它命名为<strong>NDFS（Nutch Distributed File System）</strong>。</p>
+<p>同年 2004 年，Google 又发表了一篇技术学术论文，介绍自己的<strong>MapReduce 编程模型</strong>。这个编程模型，用于大规模数据集（大于 1TB）的并行分析运算。第二年（2005 年），Doug Cutting 又基于 MapReduce，在 Nutch 搜索引擎实现了该功能。</p>
+<p>2006 年，加盟 Yahoo 之后，Doug Cutting 将 NDFS 和 MapReduce 进行了升级改造，并重新命名为<strong>Hadoop</strong>（NDFS 也改名为 HDFS，Hadoop Distributed File System）。同年，Google 又发论文介绍了自己的<strong>BigTable</strong>。这是一种分布式数据存储系统，一种用来处理海量数据的非关系型数据库。Doug Cutting 当然没有放过，在自己的 hadoop 系统里面，引入了 BigTable，并命名为<strong>HBase</strong>。</p>
+<p><strong>Hadoop 的核心架构</strong>，就是 HDFS 和 MapReduce。HDFS 为海量数据提供了存储，而 MapReduce 为海量数据提供了计算框架。</p>
+<h2 id="Hadoop-能干什么？"><a href="#Hadoop-能干什么？" class="headerlink" title="Hadoop 能干什么？"></a>Hadoop 能干什么？</h2><p>我一直对 hadoop 能干什么存在一些模糊的认知，下面我应该理清一下思路。首先，<strong>Hadoop 就是存储海量数据和分析海量数据的工具</strong>。既然是数据存储，那就需要一个文件系统进行存储，对应的是 HDFS。如果想对数据进行查询和处理就要有对应的接口，这里对应了 MapReduce。由于 MapReduce 是用一种函数接口形式实现的，如果也想像单机的关系数据库一样用 Sql 的话，可以使用 Hive。此外 MapReduce 最主要的功能是数据处理，而且是海量数据的处理，比如把所有数据的某个字段更新。实际应用场景有以下几个部分：</p>
+<ol>
+<li>大数据存储：分布式存储</li>
+<li>日志处理：擅长日志分析</li>
+<li>ETL:数据抽取到 oracle、mysql、DB2、mongdb 及主流数据库</li>
+<li>机器学习: 比如 Apache Mahout 项目</li>
+<li>搜索引擎:Hadoop + lucene 实现</li>
+<li>数据挖掘：目前比较流行的广告推荐，个性化广告推荐</li>
+</ol>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>Hadoop 一般是在服务器集群安装，然后客户端远程连接，所以服务器端需要的预先准备的是<strong>ssh 服务端程序</strong>。同时 Hadoop 是用 Java 编写的，所以必须要先<strong>安装 JDK</strong>。这些准备完毕之后，就可以安装 Hadoop 了，首先可以去<a href="https://hadoop.apache.org/">官网</a>下载安装包，把安装包上传到服务器端之后再解压到一个文件夹下，这个文件夹究竟是哪个我还不清楚，有说是<code>/opt/software/</code>下，也有说是<code>/usr/local</code>下。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo tar -zxvf hadoop-3.2.2.tar.gz -C /usr/local</span><br></pre></td></tr></table></figure>
+
+<p>然后给文件夹改个名：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ sudo <span class="built_in">mv</span> ./hadoop-3.2.2/ ./hadoop</span><br></pre></td></tr></table></figure>
+
+<h3 id="单机模式"><a href="#单机模式" class="headerlink" title="单机模式"></a>单机模式</h3><p>单机模式直接解压就可以使用，但是分布式模式是需要再修改一下配置信息的。</p>
+<p>可以查看一下 hadoop 版本信息：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /usr/local/hadoop/bin</span><br><span class="line">$ ./hadoop version</span><br></pre></td></tr></table></figure>
+
+<p>查看自带的例子：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ./hadoop jar ../share/hadoop/mapreduce/hadoop-mapreduce-examples-3.2.2.jar</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Big Data</category>
+      </categories>
+      <tags>
+        <tag>Big Data</tag>
+        <tag>Hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hive</title>
+    <url>/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hive/</url>
+    <content><![CDATA[<p>Hive 是建立在 Hadoop 上的数据仓库基础构架。它提供了一系列的工具，可以用来进行数据提取转化加载（ETL），这是一种可以存储、查询和分析存储在 Hadoop 中的大规模数据的机制。Hive 定义了简单的类 SQL 查询语言，称为 HQL（或者 Hive SQL），它允许熟悉 SQL 的用户查询数据。同时，这个语言也允许熟悉 MapReduce 开发者的开发自定义的 mapper 和 reducer 来处理内建的 mapper 和 reducer 无法完成的复杂的分析工作。</p>
+<h2 id="Hive-特性"><a href="#Hive-特性" class="headerlink" title="Hive 特性"></a>Hive 特性</h2><ol>
+<li>Hive 本身不存储和计算数据，它完全依赖于 HDFS 和 MapReduce，Hive 中的表纯逻辑。</li>
+<li>Hive 是高延迟、结构化和面向分析的，Hive 数据仓库在 hadoop 上是高延迟的。</li>
+<li>Hive 可以认为是 map-reduce 的一个包装，Hive 的意义就是把好写的 Hive 的 sql 转换为复杂难写的 map-reduce 程序。由于 Hive 采用了 SQL 的查询语言 HQL，因此很容易将 Hive 理解为数据库。其实从结构上来看，Hive 和数据库除了拥有类似的查询语言，再无类似之处。</li>
+</ol>
+<h2 id="Hive-导出表数据"><a href="#Hive-导出表数据" class="headerlink" title="Hive 导出表数据"></a>Hive 导出表数据</h2><p>通过重定向方式,将查询结果写到指定的文件中:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">hive -e &quot;set hive.cli.print.header=false;desc dp_data_db.xxx;&quot;  &gt; /mnt/Data/xxx/header_xxx.csv</span><br><span class="line"></span><br><span class="line">hive -e &quot;set hive.cli.print.header=false;select * from dp_data_db.xxx;&quot;  &gt; /mnt/Data/xxx/data_xxx.csv</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Big Data</category>
+      </categories>
+      <tags>
+        <tag>Big Data</tag>
+        <tag>Hive</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Spark</title>
+    <url>/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/</url>
+    <content><![CDATA[<p>MapReduce 编程模型已经成为主流的分布式编程模型，它极大地方便了编程人员在<strong>不会分布式并行编程</strong>的情况下，将自己的程序运行在分布式系统上。但是 MapReduce 也存在一些缺陷，如高延迟、不支持 DAG 模型、Map 与 Reduce 的中间数据落地等。因此在近两年，社区出现了优化改进 MapReduce 的项目，如交互查询引擎 Impala、支持 DAG 的 TEZ、支持内存计算 Spark 等。Spark 是 UC Berkeley AMP lab 开源的通用并行计算框架，以其先进的设计理念，已经成为社区的热门项目。</p>
+<p>Spark 特点如下：</p>
+<ul>
+<li>Spark 基于内存，尽可能的减少了中间结果写入磁盘和不必要的 sort、shuffle</li>
+<li>Spark 对于反复用到的数据进行了缓存</li>
+<li>Spark 对于 DAG 进行了高度的优化，具体在于 Spark 划分了不同的 stage 和使用了延迟计算技术</li>
+</ul>
+<blockquote>
+<p>参考：<a href="http://spark.apache.org/docs/latest/">官方文档</a></p>
+</blockquote>
+<h2 id="Spark-模块"><a href="#Spark-模块" class="headerlink" title="Spark 模块"></a>Spark 模块</h2><p>Spark 力图整合机器学习（MLib）、图算法（GraphX）、流式计算（Spark Streaming）和数据仓库（Spark SQL）等领域，通过计算引擎 Spark，弹性分布式数据集（RDD），架构出一个新的大数据应用平台。</p>
+<p><img src="/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/Spark-img-1.jpg"></p>
+<p>Spark 生态圈以 HDFS、S3、Techyon 为底层存储引擎，以 Yarn、Mesos 和 Standlone 作为资源调度引擎；使用 Spark，可以实现 MapReduce 应用；基于 Spark，Spark SQL 可以实现即席查询，Spark Streaming 可以处理实时应用，MLib 可以实现机器学习算法，GraphX 可以实现图计算，Spark R 可以实现复杂数学计算。</p>
+<p>基本模块如下：</p>
+<h3 id="Spark-Core"><a href="#Spark-Core" class="headerlink" title="Spark Core"></a>Spark Core</h3><p>Spark 的核心功能实现，包含 RDD、任务调度、内存管理、错误恢复、与存储系统交互等模块。</p>
+<h3 id="Spark-SQL"><a href="#Spark-SQL" class="headerlink" title="Spark SQL"></a>Spark SQL</h3><blockquote>
+<p>参考：<a href="https://spark.apache.org/docs/latest/sql-programming-guide.html">Spark SQL Guide</a></p>
+</blockquote>
+<p>提供 SQL 处理能力，便于熟悉关系型数据库操作的工程师进行交互查询。此外，还为熟悉 Hive 开发的用户提供了对 Hive SQL 的支持。</p>
+<p>Spark SQL 为了简化 RDD 的开发，提高开发效率，提供了 2 个编程抽象，类似 Spark Core 中的 RDD:</p>
+<ol>
+<li>DataFrame：DataFrame 是一种以 RDD 为基础的分布式数据集，类似于传统数据库中的二维表格。DataFrame 与 RDD 的主要区别在于，前者带有 schema 元信息，即 DataFrame 所表示的二维表数据集的每一列都带有名称和类型。DataFrame 是为数据提供了 Schema 的视图。可以把它当做数据库中的一张表来对待。</li>
+<li>DataSet：DataSet 是分布式数据集合。DataSet 是 DataFrame 的一个扩展。它提供了 RDD 的优势（强类型，使用强大的 lambda 函数的能力）以及 Spark SQL 优化执行引擎的优点。DataSet 也可以使用功能性的转换（操作 map，flatMap，filter 等等）。</li>
+</ol>
+<h3 id="Spark-Streaming"><a href="#Spark-Streaming" class="headerlink" title="Spark Streaming"></a>Spark Streaming</h3><p>提供流式计算处理能力，目前支持 Apache Kafka、Apache Flume、Amazon Kinesis 和简单的 TCP 套接字等多种数据源。此外，Spark Streaming 还提供窗口操作用于对一定周期内的流数据进行处理。</p>
+<h3 id="GraphX"><a href="#GraphX" class="headerlink" title="GraphX"></a>GraphX</h3><p>提供图计算处理能力，支持分布式，Pregel 提供的 API 可以解决图计算中的常见问题。</p>
+<h3 id="MLlib"><a href="#MLlib" class="headerlink" title="MLlib"></a>MLlib</h3><p>Spark 提供的机器学习库。MLlib 提供了机器学习相关的统计、分类、回归等领域的多种算法实现。其一致的 API 接口大大降低了用户的学习成本。</p>
+<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p>Spark 封装一些基本抽象，其中最重要的就是弹性分布式数据集（Resiliennt Distributed Datasets，RDD）。这是 Spark 唯一的数据结构，Spark 的核心是建立在这个统一的抽象上的。</p>
+<h3 id="RDD"><a href="#RDD" class="headerlink" title="RDD"></a>RDD</h3><p>RDD，Resilient Distributed Datasets（弹性分布式数据集），是 spark 提供的最重要的抽象概念。可以将 RDD 理解为一个<strong>分布式对象集合</strong>，本质上是一个只读的分区记录集合。每个 RDD 可以分成多个分区，每个分区就是一个数据集片段。一个 RDD 的不同分区可以保存到集群中的不同结点上，从而可以在集群中的不同结点上进行并行计算。</p>
+<p>RDD 具有容错机制，并且只读不能修改，可以执行确定的转换操作创建新的 RDD。具体来讲，RDD 具有以下几个属性。</p>
+<ul>
+<li>只读：不能修改，只能通过转换操作生成新的 RDD。</li>
+<li>分布式：可以分布在多台机器上进行并行处理。</li>
+<li>弹性：计算过程中内存不够时它会和磁盘进行数据交换。</li>
+<li>基于内存：可以全部或部分缓存在内存中，在多次计算间重用。</li>
+</ul>
+<blockquote>
+<p><strong>RDD、DataFrame 和 Dataset 的区别</strong></p>
+<p>RDD 是 Spark 的基本数据结构，Dataframe 是 Spark 更高级的数据结构抽象，Dataset 是 DataFrame API 的扩展。<a href="https://www.cnblogs.com/lestatzhang/p/10611320.html">参考</a></p>
+</blockquote>
+<h3 id="SparkContext"><a href="#SparkContext" class="headerlink" title="SparkContext"></a>SparkContext</h3><p>SparkContext 是 spark 功能的主要入口，它代表与 spark 集群的连接，能够用来在集群上创建 RDD、累加器、广播变量。每个 JVM 里只能存在一个处于激活状态的 SparkContext，在创建新的 SparkContext 之前必须调用 stop()来关闭之前的 SparkContext。</p>
+<p>SparkContext 在 spark 应用中起到了 master 的作用，掌控了所有 Spark 的生命活动，统筹全局，除了具体的任务在 executor 中执行，其他的任务调度、提交、监控、RDD 管理等关键活动均由 SparkContext 主体来完成。</p>
+<p><img src="/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/Spark-img-2.jpg"></p>
+<h3 id="SparkSession"><a href="#SparkSession" class="headerlink" title="SparkSession"></a>SparkSession</h3><p>SparkSession 是 Spark-2.0 引入的新概念。SparkSession 为用户提供了统一的切入点，来让用户学习 Spark 的各项功能。</p>
+<p>在 Spark 的早期版本中，SparkContext 是 Spark 的主要切入点，由于 RDD 是主要的 API，我们通过 sparkContext 来创建和操作 RDD。对于每个其他的 API，我们需要使用不同的 context。例如：</p>
+<ol>
+<li>对于 Spark Streaming，我们需要使用 StreamingContext</li>
+<li>对于 Spark SQL，使用 SQLContext</li>
+<li>对于 Hive，使用 HiveContext</li>
+</ol>
+<p>但是随着 DataSet 和 DataFrame 的 API 逐渐成为标准的 API，就需要为他们建立接入点。所以在 Spark2.0 中，引入 SparkSession 作为 DataSet 和 DataFrame API 的切入点，SparkSession 封装了 SparkConf、SparkContext 和 SQLContext。为了向后兼容，SQLContext 和 HiveContext 也被保存下来。所以我们现在实际写程序时，只需要定义一个 SparkSession 对象就可以了。</p>
+<h2 id="操作模式"><a href="#操作模式" class="headerlink" title="操作模式"></a>操作模式</h2><ol>
+<li>交互式 shell：<ol>
+<li><code>spark-shell</code>：Spark Shell 是 Spark 预置的 REPL，默认的语言是 Scala。</li>
+<li><code>pyspark</code>：Python 交互式 Shell</li>
+<li><code>spark-sql</code>：sql 交互式 Shell</li>
+</ol>
+</li>
+<li>编程接口：Spark 提供 Scala，Java，Python 等接口库。</li>
+</ol>
+<h2 id="作业提交"><a href="#作业提交" class="headerlink" title="作业提交"></a>作业提交</h2><blockquote>
+<p>参考：<a href="http://spark.apache.org/docs/latest/submitting-applications.html">Submitting Applications</a></p>
+</blockquote>
+<p>Spark 应用程序作为集群上的独立进程集运行，由主程序（称为 driver program）中的 SparkContext 对象协调。</p>
+<p>具体来说，为了在集群上运行，SparkContext 可以连接到多种类型的集群管理器（cluster managers ，如 Spark 自己的独立集群管理器、Mesos 或 YARN），它们在应用程序之间分配资源。 连接后，Spark 会在集群中的节点上获取执行程序，这些进程为您的应用程序运行计算和存储数据。 接下来，它将您的应用程序代码（由传递给 SparkContext 的 JAR 或 Python 文件定义）发送到执行程序（executors）。 最后，SparkContext 将任务发送给执行器运行。</p>
+<h3 id="作业流程"><a href="#作业流程" class="headerlink" title="作业流程"></a>作业流程</h3><p>无论运行在哪种模式下，Spark 作业的执行流程都是相似的，主要有如下八步：</p>
+<ol>
+<li>客户端提交作业</li>
+<li>Driver 启动流程</li>
+<li>Driver 申请资源并启动其余 Executor(即 Container)</li>
+<li>Executor 启动流程</li>
+<li>作业调度，生成 stages 与 tasks。</li>
+<li>Task 调度到 Executor 上，Executor 启动线程执行 Task 逻辑</li>
+<li>Driver 管理 Task 状态</li>
+<li>Task 完成，Stage 完成，作业完成</li>
+</ol>
+<h3 id="提交方法"><a href="#提交方法" class="headerlink" title="提交方法"></a>提交方法</h3><ol>
+<li><p>spark-submit</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">./bin/spark-submit \</span><br><span class="line">  --class &lt;main-class&gt; \</span><br><span class="line">  --master &lt;master-url&gt; \</span><br><span class="line">  --deploy-mode &lt;deploy-mode&gt; \</span><br><span class="line">  --conf &lt;key&gt;=&lt;value&gt; \</span><br><span class="line">  ... <span class="comment"># other options</span></span><br><span class="line">  &lt;application-jar&gt; \</span><br><span class="line">  [application-arguments]</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<ul>
+<li><code>--class</code>：应用程序的主类，仅针对 java 或 scala 应用</li>
+<li><code>--master</code>： master 的地址，提交任务到哪里执行，例如 spark:&#x2F;&#x2F;host:port, yarn, local</li>
+<li><code>--deploy-mode</code>： 在本地 (client) 启动 driver 或在 cluster 上启动，默认是 client</li>
+<li><code>--conf</code>：指定 spark 配置属性的值</li>
+<li><code>application-jar</code>：</li>
+<li><code>application-arguments</code>：传递给你的主函数的参数</li>
+</ul>
+<p>如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># Run a Python application on a Spark standalone cluster</span></span><br><span class="line">./bin/spark-submit \</span><br><span class="line">  --master spark://207.184.161.138:7077 \</span><br><span class="line">  examples/src/main/python/pi.py \</span><br><span class="line">  1000</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>spark-sql</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">spark-sql</span><br></pre></td></tr></table></figure>
+
+<p>参数说明：</p>
+<ul>
+<li><code>--master</code>：</li>
+<li><code>--deploy-mode</code>：</li>
+<li><code>--executor-memory</code>：</li>
+<li><code>--driver-memory</code>：</li>
+</ul>
+<p>可以通过使用命令<code>spark-sql --help</code>查看命令的使用。</p>
+</li>
+</ol>
+<h2 id="PySpark"><a href="#PySpark" class="headerlink" title="PySpark"></a>PySpark</h2><blockquote>
+<p>参考：<a href="https://spark.apache.org/docs/latest/api/python/reference/index.html">API Reference</a></p>
+</blockquote>
+<p>PySpark 是 Spark 的 Python API。使用 PySpark，您也可以使用 Python 编程语言处理 RDD。</p>
+<h3 id="操作模式-1"><a href="#操作模式-1" class="headerlink" title="操作模式"></a>操作模式</h3><ol>
+<li>交互式 PySpark shell</li>
+<li>使用 Python 运行</li>
+</ol>
+<h3 id="基本模块"><a href="#基本模块" class="headerlink" title="基本模块"></a>基本模块</h3><blockquote>
+<p>参考：<a href="https://spark.apache.org/docs/latest/api/python/reference/index.html">API Reference</a></p>
+</blockquote>
+<p>PySpark 根据 Spark 的不同模块，也设计了如下的 7 个 API 接口模块：Spark Core，Spark Streaming，Spark SQL，Structured Streaming，MLlib (RDD-based)，MLlib (DataFrame-based)，Resource Management。</p>
+<h4 id="Spark-Core-1"><a href="#Spark-Core-1" class="headerlink" title="Spark Core"></a>Spark Core</h4><blockquote>
+<p>参考：<a href="https://spark.apache.org/docs/latest/rdd-programming-guide.html">RDD Programming Guide</a></p>
+</blockquote>
+<p>用以下代码创建存储一组单词的 RDD（spark 使用 parallelize 方法创建 RDD），我们现在将对单词进行一些操作。</p>
+<h5 id="RDD-创建"><a href="#RDD-创建" class="headerlink" title="RDD 创建"></a>RDD 创建</h5><p>主要使用两种方式进行创建：</p>
+<ol>
+<li><code>sc.paralize()</code>：从上下文的 list，或者 array 中创建</li>
+<li><code>sc.textFile()</code>：从文件进行创建，参数 1 是路径，参数 2 是代表数据集被划分的分区数。如果是本地文件的话，路径前面需要加上<code>file://</code>。</li>
+</ol>
+<h5 id="RDD-常用内置方法"><a href="#RDD-常用内置方法" class="headerlink" title="RDD 常用内置方法"></a>RDD 常用内置方法</h5><p>指的是对整个数据进行操作，因为常常要把很大的数据，处理成我们想要的格式。为了方便处理，所以设计了如下的接口：</p>
+<ol>
+<li><code>map(f, preservesPartitioning=False)</code><ul>
+<li>参数：<ul>
+<li><code>f: func</code>：自定义行处理函数，这个函数的输入参数是 RDD 中的一行，返回值是处理后结果。</li>
+<li><code>preservesPartitioning: bool</code>：表示是否保留父 RDD 的 partitioner 分区信息。</li>
+</ul>
+</li>
+<li>功能：将函数 f 应用在每一个 RDD 元素上，也就是对每一行做转换。</li>
+</ul>
+</li>
+<li><code>reduce(f)</code><ul>
+<li>参数：<ul>
+<li><code>f: func</code>：自定义处理函数，参数固定有两个。</li>
+</ul>
+</li>
+<li>功能：将 RDD 中元素两两传递给输入函数，同时产生一个新的值，新产生的值与 RDD 中下一个元素再被传递给输入函数直到最后只有一个值为止。</li>
+</ul>
+</li>
+<li><code>reduceByKey(f, numPartitions, partitionFunc)</code><ul>
+<li>参数：<ul>
+<li><code>f: func</code>：自定义处理函数</li>
+<li><code>numPartitions</code>：</li>
+<li><code>partitionFunc</code>：</li>
+</ul>
+</li>
+<li>功能：对元素为 KV 对的 RDD 中 Key 相同的元素的 Value 进行 reduce，因此，Key 相同的多个元素的值被 reduce 为一个值，然后与原 RDD 中的 Key 组成一个新的 KV 对。</li>
+</ul>
+</li>
+<li><code>groupBy(f[, numPartitions, partitionFunc])</code><ul>
+<li>参数：<ul>
+<li><code>f: func</code>：自定义的处理函数</li>
+<li><code>numPartitions</code>：</li>
+<li><code>partitionFunc</code>：</li>
+</ul>
+</li>
+<li>功能：接收一个函数，这个函数返回的值作为 key，然后通过这个 key 来对里面的元素进行分组，返回一个聚合的 RDD</li>
+<li>例子：<code>rdd.groupBy(lambda x: x % 2).collect()</code></li>
+</ul>
+</li>
+<li><code>groupByKey([numPartitions, partitionFunc])</code><ul>
+<li>参数：<ul>
+<li><code>numPartitions</code>：</li>
+<li><code>partitionFunc</code>：</li>
+</ul>
+</li>
+<li>功能：直接将键值对类型的数据的 key 作为 group 的 key 值，返回一个聚合的 RDD</li>
+<li>例子：<code>rdd.groupByKey().mapValues(list).collect()</code></li>
+</ul>
+</li>
+<li><code>filter(f)</code><ul>
+<li>参数：<ul>
+<li><code>f: func</code>：自定义行处理函数，返回值要求是布尔值。</li>
+</ul>
+</li>
+<li>功能：过滤，在 RDD 中筛选符合特定条件的数据元素。</li>
+</ul>
+</li>
+<li><code>flatMap(f, preservesPartitioning=False)</code>：<ul>
+<li>参数：同 map</li>
+<li>功能：与 map 类似，但返回的是一个扁平的结果，不是一个列表。</li>
+</ul>
+</li>
+<li><code>foreach(f)</code><ul>
+<li>参数：<ul>
+<li><code>f: func</code>：</li>
+</ul>
+</li>
+<li>功能：对这个 RDD 的每个元素都使用函数 f</li>
+</ul>
+</li>
+<li><code>join(other, numPartitions=None)</code><ul>
+<li>参数：<ul>
+<li><code>other</code>：另一个 RDD</li>
+</ul>
+</li>
+<li>功能：将这个 RDD 与另一个 RDD 通过 key 值连接，返回一个新的 RDD</li>
+<li>例子：<code>x.join(y).collect()</code></li>
+</ul>
+</li>
+<li><code>collect()</code><ul>
+<li>功能：返回一个包含这个 RDD 所有元素的 list</li>
+</ul>
+</li>
+<li><code>count()</code><ul>
+<li>功能：返回这个 RDD 中的元素的数量</li>
+</ul>
+</li>
+<li><code>distict(numPartitions=None)</code>：<ul>
+<li>参数：<ul>
+<li><code>numPartitions</code>：</li>
+</ul>
+</li>
+<li>功能：去重，返回一个新的 RDD，这个 RDD 只包含父 RDD 不同的元素。</li>
+</ul>
+</li>
+<li><code>sample(withReplacement, fraction, seed=None)</code>：<ul>
+<li>参数：<ul>
+<li><code>withReplacement: bool</code>：元素是否能够重复采样</li>
+<li><code>fraction: float</code>：采样比率，必须在[0, 1]之间，采样出来的 RDD 大小是原来 RDD 大小的多少</li>
+<li><code>seed: int optional</code>：随机种子</li>
+</ul>
+</li>
+<li>功能：生成一个此 RDD 的采样子集</li>
+</ul>
+</li>
+</ol>
+<h4 id="Spark-SQL-1"><a href="#Spark-SQL-1" class="headerlink" title="Spark SQL"></a>Spark SQL</h4><blockquote>
+<p>参考：<a href="https://spark.apache.org/docs/latest/sql-programming-guide.html">Spark SQL, DataFrames and Datasets Guide</a></p>
+</blockquote>
+<h4 id="相关聚合函数"><a href="#相关聚合函数" class="headerlink" title="相关聚合函数"></a>相关聚合函数</h4><p>库是<code>pyspark.sql.functions</code>，</p>
+<ol>
+<li>max</li>
+<li>min</li>
+<li>count</li>
+<li>sum</li>
+<li>avg</li>
+<li>mean</li>
+<li>sumDistinct：去重后求和</li>
+<li>collect_list</li>
+<li>collect_set</li>
+<li>stddev</li>
+<li>variance</li>
+</ol>
+<p>用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">from pyspark.sql.functions import collect_list</span><br><span class="line"></span><br><span class="line">after_data = data_df.groupBy(data_df.mobile).agg(collect_list(data_df.app_code))</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>Big Data</category>
+      </categories>
+      <tags>
+        <tag>Big Data</tag>
+        <tag>Spark</tag>
       </tags>
   </entry>
 </search>

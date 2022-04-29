@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="记录，学习，生活。"><title>Conda相关 | Jinzhao Tian</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><div class="darkmode-toggle">🌓</div><script>var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+var toggle = document.querySelector('.darkmode-toggle');
+var html = document.querySelector('html');
+
+html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
+
+toggle.addEventListener('click', () => {
+localStorage.dark = !(html.dataset.dark == 'true');
+html.dataset.dark = localStorage.dark;
+});</script><meta name="generator" content="Hexo 6.1.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Conda相关</h1><a id="logo" href="/.">Jinzhao Tian</a><p class="description">As I was said, I was young and stupid.</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tags"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Conda相关</h1><div class="post-meta">2022-04-29<span> | </span><span class="category"><a href="/categories/basic-knowledge/">basic knowledge</a></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-number">1.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8E-pip-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">2.</span> <span class="toc-text">与 pip 的区别</span></a></li></ol></div></div><div class="post-content"><p>Conda 是一个开源的软件包管理系统和环境管理系统，用于安装多个版本的软件包及其依赖关系，并在它们之间轻松切换。 Conda 是为 Python 程序创建的，适用于 Linux，OS X 和 Windows，也可以打包和分发其他软件。</p>
+<h3 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h3><ul>
+<li><p>创建环境：<code>conda create -n [name] python=3.8</code></p>
+</li>
+<li><p>删除环境：<code>conda remove -n [name] --all</code></p>
+</li>
+<li><p>复制环境：<code>conda create -n [newenv] --clone [oldenv]</code></p>
+</li>
+<li><p>激活环境：<code>conda activate [name]</code></p>
+</li>
+<li><p>退出环境：<code>conda deactivate</code></p>
+</li>
+<li><p>显示所有环境： <code>conda env list</code>，<code>conda info -e</code></p>
+</li>
+<li><p>显示已安装的包：<code>conda list</code></p>
+</li>
+<li><p>搜索包：<code>conda search [name]</code></p>
+</li>
+<li><p>安装：<code>conda install [name]</code></p>
+</li>
+<li><p>卸载：<code>conda uninstall [name]</code></p>
+</li>
+<li><p>删除没有用的包：<code>conda clean -p</code></p>
+</li>
+<li><p>添加新镜像源：<code>conda config --add channels [channelsurl]</code></p>
+<ul>
+<li>-channels:<ul>
+<li><code>- https://mirrors.sjtug.sjtu.edu.cn/anaconda/pkgs/main/</code></li>
+<li><code>- https://mirrors.sjtug.sjtu.edu.cn/anaconda/pkgs/free/</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="与-pip-的区别"><a href="#与-pip-的区别" class="headerlink" title="与 pip 的区别"></a>与 pip 的区别</h3><p><strong>pip</strong></p>
+<blockquote>
+<ul>
+<li><strong>pip 专门管理 Python 包</strong></li>
+<li><strong>编译源码中的所有内容</strong>。 <strong>（源码安装）</strong></li>
+<li>由核心 Python 社区所支持（即，Python 3.4+包含可自动增强 pip 的代码）。</li>
+</ul>
+</blockquote>
+<p><strong>conda</strong></p>
+<blockquote>
+<ul>
+<li>conda 本身是用 Python 编写的，但你也可以为 C 库或 R 软件包或任何其他软件包提供 conda 软件包。</li>
+<li>安装的是二进制文件。 有一个名为 conda build 的工具，它可以从源代码构建软件包，但 conda install 本身会安装已经构建的 conda 软件包中的东西。</li>
+<li>Conda 是 Anaconda 的包管理器，由 Continuum Analytics 提供的 Python 发行版，但它也可以在 Anaconda 之外使用。 您可以使用现有的 Python 安装，通过 pip 安装它（尽管除非您有充分理由使用现有安装，否则不建议这样做）。</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>参考：<a href="https://docs.conda.io/en/latest/">官方文档</a>，<a href="https://anaconda.org/anaconda/conda">Anaconda</a></p>
+</blockquote>
+</div><div class="post-copyright"><script type="text/javascript" src="/js/copyright.js?v=1.0.0" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copyright.css?v=1.0.0"><p><span>本文标题：</span>Conda相关</p><p><span>文章作者：</span>Jinzhao Tian</p><p><span>发布时间：</span>2022-04-29</p><p><span>最后更新：</span>2022-04-29</p><p><span>原始链接：</span><a href="/basic-knowledge/基础知识/Conda相关/">http://jinzhaotian.github.io/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Conda%E7%9B%B8%E5%85%B3/</a><span class="copy-path"><i class="fa fa-clipboard" data-clipboard-text="http://jinzhaotian.github.io/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Conda%E7%9B%B8%E5%85%B3/"></i></span></p><p><span>版权声明：</span>转载请注明出处！</p></div><br><div class="tags"><a href="/tags/Conda"><i class="fa fa-tag">Conda</i></a></div><div class="post-nav"><a class="pre" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Git%E7%9B%B8%E5%85%B3/">Git相关</a><a class="next" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE%E5%BC%95%E7%94%A8%E6%A0%87%E5%87%86/">参考文献引用标准</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Big-Data/">Big Data</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataBase/">DataBase</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/back-end/">back end</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/basic-knowledge/">basic knowledge</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/back-end/%E5%90%8E%E7%AB%AF/Docker/">Docker</a></li><li class="post-list-item"><a class="post-list-link" href="/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/">Spark</a></li><li class="post-list-item"><a class="post-list-link" href="/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hive/">Hive</a></li><li class="post-list-item"><a class="post-list-link" href="/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hadoop/">Hadoop</a></li><li class="post-list-item"><a class="post-list-link" href="/DataBase/%E5%90%8E%E7%AB%AF/PostgreSQL/">PostgreSQL</a></li><li class="post-list-item"><a class="post-list-link" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/ssh%E5%91%BD%E4%BB%A4/">ssh命令</a></li><li class="post-list-item"><a class="post-list-link" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F/">Linux系统</a></li><li class="post-list-item"><a class="post-list-link" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Git%E7%9B%B8%E5%85%B3/">Git相关</a></li><li class="post-list-item"><a class="post-list-link" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Conda%E7%9B%B8%E5%85%B3/">Conda相关</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://github.com/JinzhaoTian" title="GitHub" target="_blank">GitHub</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">Jinzhao Tian.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.0.0"><script type="text/javascript" src="/js/search.js?v=1.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+  search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>

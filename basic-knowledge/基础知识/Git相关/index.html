@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="记录，学习，生活。"><title>Git相关 | Jinzhao Tian</title><link rel="stylesheet" type="text/css" href="/css/style.css?v=1.0.0"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/normalize.css/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/pure-min.min.css"><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/npm/purecss/build/grids-responsive-min.css"><link rel="stylesheet" href="//cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/jquery/dist/jquery.min.js"></script><link rel="icon" mask="" sizes="any" href="/favicon.ico"><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><script type="text/javascript" src="//cdn.jsdelivr.net/npm/clipboard/dist/clipboard.min.js"></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.js"></script><link rel="stylesheet" href="//cdn.jsdelivr.net/gh/codeseven/toastr/build/toastr.min.css"><div class="darkmode-toggle">🌓</div><script>var prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+var toggle = document.querySelector('.darkmode-toggle');
+var html = document.querySelector('html');
+
+html.dataset.dark = localStorage.dark || prefersDarkMode.matches;
+
+toggle.addEventListener('click', () => {
+localStorage.dark = !(html.dataset.dark == 'true');
+html.dataset.dark = localStorage.dark;
+});</script><meta name="generator" content="Hexo 6.1.0"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">Git相关</h1><a id="logo" href="/.">Jinzhao Tian</a><p class="description">As I was said, I was young and stupid.</p></div><div id="nav-menu"><a class="current" href="/."><i class="fa fa-home"> 首页</i></a><a href="/archives/"><i class="fa fa-archive"> 归档</i></a><a href="/tags/"><i class="fa fa-tags"> 标签</i></a><a href="/about/"><i class="fa fa-user"> 关于</i></a></div></div><div class="pure-g" id="layout"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">Git相关</h1><div class="post-meta">2022-04-29<span> | </span><span class="category"><a href="/categories/basic-knowledge/">basic knowledge</a></span></div><div class="clear"><div class="toc-article" id="toc"><div class="toc-title">文章目录</div><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#TODO"><span class="toc-number">1.</span> <span class="toc-text">TODO</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%91%BD%E4%BB%A4"><span class="toc-number">2.</span> <span class="toc-text">命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Commit-Message"><span class="toc-number">3.</span> <span class="toc-text">Commit Message</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E6%A0%BC%E5%BC%8F"><span class="toc-number">3.1.</span> <span class="toc-text">具体格式</span></a></li></ol></li></ol></div></div><div class="post-content"><p>Git 是一个分布式版本控制系统，CVS 及 SVN 都是集中式的版本控制系统。</p>
+<h2 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h2><p>有必要整理一下 Git 的工作流程</p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><ul>
+<li><code>git init</code>：把当前文件夹初始化为一个仓库</li>
+<li><code>rm -rf .git</code>：删除仓库，本质就是删除.git 文件夹，ls -a 能看到全部文件夹</li>
+<li><code>git status</code>：查看 git 状态</li>
+</ul>
+<p>git 不同的项目有不用的用户，应该有方便的设置来进行吧，不用每次都切换一下吧？</p>
+<ul>
+<li><p><code>git config --global user.name &quot;Jinzhao Tian&quot; </code>：设置 git 自己的名字</p>
+</li>
+<li><p><code>git config --global user.email &quot;tianjinzhao@sjtu.edu.cn&quot;</code>：和电子邮件</p>
+</li>
+<li><p><code>git config -l</code>：查看用户信息</p>
+</li>
+<li><p><code>git config --local --list</code>：查看当前仓库配置信息</p>
+</li>
+<li><p><code>git branch</code>：查看所有分支</p>
+</li>
+<li><p><code>git branch [name]</code>：创建分支</p>
+</li>
+<li><p><code>git branch -d [name]</code>：删除分支</p>
+</li>
+<li><p><code>git checkout [name]</code>：切换分支</p>
+</li>
+<li><p><code>git checkout -b [name]</code>：创建<code>[name]</code>分支，并切换到<code>[name]</code>分支</p>
+</li>
+<li><p><code>git merge [name]</code>：把<code>[name]</code>分支合并到<code>main</code>分支上</p>
+</li>
+<li><p><code>git pull --rebase</code>：就是你在你的分支上开发的时候，主分支又 merge 了一部分，那你当前的分支对应主分支上的起点就不是最新的 origin master HEAD 的，所以 pull request 的时候就要 rebase 一下，将你的分支的起点重新定位到最新的 origin master HEAD。</p>
+</li>
+<li><p><code>git stash</code>：将修改的内容保存至堆栈区，等待另一个修改完成，再用<code>git stash pop</code>将你做的修改恢复一下，比如说直接 pull origin master 会冲突，就先放在堆栈区，合并了再弹出。</p>
+</li>
+<li><p><code>git branch -M main</code>：快捷修改当前项目的分支为 main</p>
+</li>
+<li><p><code>git config --global init.defaultBranch main</code>：修改默认分支为 main 分支</p>
+</li>
+<li><p><code>git log</code>：列出当前分支的历史提交信息。</p>
+</li>
+<li><p><code>git reflog</code>：列出当前分支的所有 commit，reset 的相关命令列表，这是 repo 的 undo 历史。可以用<code>git reset --hard [历史号]</code>来回退到先前的状态。</p>
+</li>
+<li><p><code>git add [filename]</code>：添加文件到缓存区，filename 为 <code>.</code> 的时候表示所有文件。</p>
+</li>
+<li><p><code>git reset HEAD [filename]</code>：撤销已经提交的缓存区的修改后文件，HEAD 表示最新的版本。一般常用的有<code>git reset --soft [sha256]</code>，用来撤回提交的 commit，把 commit 放回 staged 区，已经做的更改不会丢失。</p>
+</li>
+<li><p><code>git commit -m “balabala”</code>：提交</p>
+</li>
+<li><p><code>git reset --hard [commit_id]</code>：版本回退，已经做的更改会丢失。</p>
+</li>
+<li><p><code>git rm [filename]</code>：已用<code>rm [filename]</code>命令删除文件后，如果确实要从版本库删除该文件，则使用该命令</p>
+</li>
+<li><p><code>git checkout -- [filename]</code>：如果删错了，用这个命令还原。<code>git checkout</code>：其实是用版本库里的版本替换工作区的版本，无论工作区是修改还是删除，都可以“一键还原”</p>
+</li>
+<li><p><code>git remote -v</code>：查看远程仓库的状态</p>
+</li>
+<li><p><code>git remote add origin https://github.com/***/***.git</code>：为本仓库添加远程仓库，远程仓库要自己建立好</p>
+</li>
+<li><p><code>git remote rm origin</code>：删除远程仓库</p>
+</li>
+<li><p><code>git push -u origin main</code>：推送到远程仓库，第一次要加-u，以后不用</p>
+</li>
+<li><p><code>git pull origin main</code>：把远程仓库的内容拉进来</p>
+</li>
+<li><p><code>git clone https://github.com/***/***.git </code>: 克隆别人的代码仓库</p>
+<p><strong>注意</strong>：</p>
+<p>GitHub 进行了更新，<code>git clone https://&lt;username&gt;:&lt;githubtoken&gt;@github.com/&lt;username&gt;/&lt;repositoryname&gt;.git</code>，使用了 personal Token 来代替密码，每个账户生成一个 Token，然后具体的权限在生成 Token 时进行选择。<a href="https://stackoverflow.com/questions/68775869/support-for-password-authentication-was-removed-please-use-a-personal-access-to">参考</a></p>
+</li>
+</ul>
+<h2 id="Commit-Message"><a href="#Commit-Message" class="headerlink" title="Commit Message"></a>Commit Message</h2><p>从今天开始规范我的 commit message，具体规范参考<a href="https://zhuanlan.zhihu.com/p/182553920">文章</a>。</p>
+<h3 id="具体格式"><a href="#具体格式" class="headerlink" title="具体格式"></a>具体格式</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;</span><br></pre></td></tr></table></figure>
+
+<p>字段解释：</p>
+<ol>
+<li><p><strong>type</strong>：用于说明 git commit 的类别，只允许使用下面的标识</p>
+<ul>
+<li>feat：新功能（feature）。</li>
+<li>fix&#x2F;to：修复 bug，可以是 QA 发现的 BUG，也可以是研发自己发现的 BUG。</li>
+<li>docs：文档（documentation）。</li>
+<li>style：格式（不影响代码运行的变动）。</li>
+<li>refactor：重构（即不是新增功能，也不是修改 bug 的代码变动）。</li>
+<li>perf：优化相关，比如提升性能、体验。</li>
+<li>test：增加测试。</li>
+<li>chore：构建过程或辅助工具的变动。</li>
+<li>revert：回滚到上一个版本。</li>
+<li>merge：代码合并。</li>
+<li>sync：同步主线或分支的 Bug。</li>
+</ul>
+</li>
+<li><p><strong>scope</strong>：用于说明 commit 影响的范围，比如数据层、控制层、视图层等等，视项目不同而不同。</p>
+<p>在我这个项目中可以是不同的目录吧</p>
+</li>
+<li><p><strong>subject</strong>：是 commit 目的的简短描述，不超过 50 个字符。</p>
+<p>建议使用中文（感觉中国人用中文描述问题能更清楚一些）。结尾不加句号或其他标点符号。</p>
+</li>
+</ol>
+<blockquote>
+<p>参考：<a href="https://git-scm.com/">官方网站</a>，<a href="https://www.jianshu.com/p/382abb427ca9">Git 详解</a>，<a href="https://docs.microsoft.com/zh-cn/learn/paths/github-administration-products/">微软官方文档</a></p>
+</blockquote>
+</div><div class="post-copyright"><script type="text/javascript" src="/js/copyright.js?v=1.0.0" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copyright.css?v=1.0.0"><p><span>本文标题：</span>Git相关</p><p><span>文章作者：</span>Jinzhao Tian</p><p><span>发布时间：</span>2022-04-29</p><p><span>最后更新：</span>2022-04-29</p><p><span>原始链接：</span><a href="/basic-knowledge/基础知识/Git相关/">http://jinzhaotian.github.io/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Git%E7%9B%B8%E5%85%B3/</a><span class="copy-path"><i class="fa fa-clipboard" data-clipboard-text="http://jinzhaotian.github.io/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Git%E7%9B%B8%E5%85%B3/"></i></span></p><p><span>版权声明：</span>转载请注明出处！</p></div><br><div class="tags"><a href="/tags/Git"><i class="fa fa-tag">Git</i></a></div><div class="post-nav"><a class="pre" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a><a class="next" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Conda%E7%9B%B8%E5%85%B3/">Conda相关</a></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><div class="search-form"><input id="local-search-input" placeholder="Search" type="text" name="q" results="0"/><div id="local-search-result"></div></div></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> 分类</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Big-Data/">Big Data</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/DataBase/">DataBase</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/back-end/">back end</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/basic-knowledge/">basic knowledge</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> 最近文章</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/back-end/%E5%90%8E%E7%AB%AF/Docker/">Docker</a></li><li class="post-list-item"><a class="post-list-link" href="/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Spark/">Spark</a></li><li class="post-list-item"><a class="post-list-link" href="/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hive/">Hive</a></li><li class="post-list-item"><a class="post-list-link" href="/Big-Data/%E5%A4%A7%E6%95%B0%E6%8D%AE/Hadoop/">Hadoop</a></li><li class="post-list-item"><a class="post-list-link" href="/DataBase/%E5%90%8E%E7%AB%AF/PostgreSQL/">PostgreSQL</a></li><li class="post-list-item"><a class="post-list-link" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/ssh%E5%91%BD%E4%BB%A4/">ssh命令</a></li><li class="post-list-item"><a class="post-list-link" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Linux%E7%B3%BB%E7%BB%9F/">Linux系统</a></li><li class="post-list-item"><a class="post-list-link" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Linux%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">Linux常用命令</a></li><li class="post-list-item"><a class="post-list-link" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Git%E7%9B%B8%E5%85%B3/">Git相关</a></li><li class="post-list-item"><a class="post-list-link" href="/basic-knowledge/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/Conda%E7%9B%B8%E5%85%B3/">Conda相关</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> 友情链接</i></div><ul></ul><a href="https://github.com/JinzhaoTian" title="GitHub" target="_blank">GitHub</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">Copyright © 2022 <a href="/." rel="nofollow">Jinzhao Tian.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a class="show" id="rocket" href="#top"></a><script type="text/javascript" src="/js/totop.js?v=1.0.0" async></script><script type="text/javascript" src="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=1.0.0" async></script><link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/gh/fancyapps/fancybox/dist/jquery.fancybox.min.css"><link rel="stylesheet" type="text/css" href="/css/search.css?v=1.0.0"><script type="text/javascript" src="/js/search.js?v=1.0.0"></script><script>var search_path = 'search.xml';
+if (search_path.length == 0) {
+  search_path = 'search.xml';
+}
+var path = '/' + search_path;
+searchFunc(path, 'local-search-input', 'local-search-result');
+</script><script type="text/javascript" src="/js/copycode.js?v=1.0.0" successtext="复制成功!"></script><link rel="stylesheet" type="text/css" href="/css/copycode.css?v=1.0.0"><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=1.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=1.0.0"></script></div></body></html>
